@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsantann <jsantann@student.42.rio>         +#+  +:+       +#+        */
+/*   By: vde-vasc <vde-vasc@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 23:33:26 by jsantann          #+#    #+#             */
-/*   Updated: 2023/05/17 17:22:37 by jsantann         ###   ########.fr       */
+/*   Updated: 2023/05/29 20:29:04 by vde-vasc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,32 @@ void	print_matrix(t_cube *cub)
 	int	i;
 
 	i = 0;
-	printf("%s\n", cub->resolution);
-	while (cub->texture[i])
-		printf("%s\n", cub->texture[i++]);
+	printf("%s\n", cub->world.resolution);
+	while (cub->world.texture[i])
+		printf("%s\n", cub->world.texture[i++]);
 	i = 0;
-	printf("%s\n", cub->sprites);
+	printf("%s\n", cub->world.sprites);
 	i = 0;
-	while (cub->colors[i])
-		printf("%s\n", cub->colors[i++]);
+	while (cub->world.colors[i])
+		printf("%s\n", cub->world.colors[i++]);
 	i = 0;
-	while (cub->map[i])
-		printf("%s", cub->map[i++]);
+	while (cub->world.map[i])
+		printf("%s", cub->world.map[i++]);
+}
+
+char	*create_spaces(int len)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = malloc(sizeof(char) * len);
+	while (i < len)
+	{
+		tmp[i] = ' ';
+		i++;
+	}
+	tmp[i] = '\n';
+	tmp[i + 1] = '\0';
+	return (tmp);
 }

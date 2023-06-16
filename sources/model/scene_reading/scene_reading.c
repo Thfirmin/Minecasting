@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_reading.c                                      :+:      :+:    :+:   */
+/*   scene_reading.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vde-vasc <vde-vasc@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:26:34 by jsantann          #+#    #+#             */
-/*   Updated: 2023/05/19 21:53:14 by jsantann         ###   ########.fr       */
+/*   Updated: 2023/05/29 20:28:49 by vde-vasc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	get_file(int fd, t_cube *cub)
 		free(gnl);
 	}
 	matrix = ft_split(res, '$');
-	cub->texture = get_texture_map(matrix);
-	cub->colors = get_colors(matrix);
-	cub->map = get_map(matrix);
-	cub->resolution = get_resolution(matrix);
-	cub->sprites = get_sprite(matrix);
+	cub->world.texture = get_texture_map(matrix);
+	cub->world.colors = get_colors(matrix);
+	cub->world.map = get_map(matrix);
+	cub->world.resolution = get_resolution(matrix);
+	cub->world.sprites = get_sprite(matrix);
 	print_matrix(cub);
 	free(res);
 	free_matrix(matrix);
@@ -80,19 +80,23 @@ char	**get_map(char **matrix)
 {
 	int		size;
 	int		start;
+	int		max;
 	int		i;
 	char	**map;
 
 	start = start_map(matrix);
 	size = size_map(matrix, start);
-	map = ft_calloc(sizeof(char *), size + 1);
-	i = 0;
-	while (i < size)
+	max = search_max_len(matrix, start);
+	map = ft_calloc(sizeof(char *), size + 3);
+	map[0] = create_spaces(max);
+	i = 1;
+	while (i <= size)
 	{
-		map[i] = ft_strdup(matrix[start]);
+		map[i] = ft_specialdup(matrix[start], max);
 		i++;
 		start++;
 	}
-	map[i] = NULL;
+	map[i] = create_spaces(max);
+	map[i + 1] = NULL;
 	return (map);
 }
